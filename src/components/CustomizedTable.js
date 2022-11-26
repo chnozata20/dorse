@@ -1,5 +1,4 @@
 import * as React from "react";
-import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -13,35 +12,8 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-
-const rows = [
-  createData(1, "ADANA", "İZMİR", "10.05.2022", "10.10.2022"),
-  createData(2, "ADANA", "İZMİR", "10.05.2022", "10.10.2022"),
-  createData(3, "ADANA", "İZMİR", "10.05.2022", "10.10.2022"),
-  createData(4, "ADANA", "İZMİR", "10.05.2022", "10.10.2022"),
-  
-];
-
-function createData(id, start_point, end_point, start_date, end_date) {
-  return {
-    id,
-    start_point,
-    end_point,
-    start_date,
-    end_date,
-    detail: [
-      {
-        distance: "510 KM",
-        vehicle_type: "TIR-DORSELİ",
-        trailer_type: "HEPSİ",
-        tonnage: "20 TON",
-        volume: "20 M^3",
-        cargo_type: "EŞYA",
-        payment_type: "NAKİT",
-      },
-    ],
-  };
-}
+import { useEffect } from "react";
+import "../styles/CustomizedTable.css";
 
 function Row(props) {
   const { row } = props;
@@ -60,11 +32,14 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.start_point}
+          {row.startCity}
         </TableCell>
-        <TableCell>{row.end_point}</TableCell>
-        <TableCell>{row.start_date}</TableCell>
-        <TableCell>{row.end_date}</TableCell>
+        <TableCell>{row.endCity}</TableCell>
+        <TableCell>{row.startDate}</TableCell>
+        <TableCell>{row.endDate}</TableCell>
+        <TableCell>
+          <button className="button-12">SEÇ</button>
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -86,25 +61,16 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.detail.map((detailRow) => (
-                    <TableRow key={detailRow.distance}>
-                      <TableCell align="right">{detailRow.distance}</TableCell>
-                      <TableCell align="right">
-                        {detailRow.vehicle_type}
-                      </TableCell>
-                      <TableCell align="right">
-                        {detailRow.trailer_type}
-                      </TableCell>
-                      <TableCell align="right">{detailRow.tonnage}</TableCell>
-                      <TableCell align="right">{detailRow.volume}</TableCell>
-                      <TableCell align="right">
-                        {detailRow.cargo_type}
-                      </TableCell>
-                      <TableCell align="right">
-                        {detailRow.payment_type}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  <TableRow>
+                    <TableCell align="right">{row.distance}</TableCell>
+                    <TableCell align="right">{row.vehicleType}</TableCell>
+                    <TableCell align="right">{row.trailerType}</TableCell>
+                    <TableCell align="right">{row.tonnage}</TableCell>
+                    <TableCell align="right">{row.volume}</TableCell>
+                    <TableCell align="right">{row.cargoType}</TableCell>
+                    <TableCell align="right">{row.paymentType}</TableCell>
+                  </TableRow>
+                  <TableRow></TableRow>
                 </TableBody>
               </Table>
             </Box>
@@ -115,28 +81,19 @@ function Row(props) {
   );
 }
 
-Row.propTypes = {
-  row: PropTypes.shape({
-    start_point: PropTypes.string.isRequired,
-    end_point: PropTypes.string.isRequired,
-    start_date: PropTypes.string.isRequired,
-    end_date: PropTypes.string.isRequired,
-
-    detail: PropTypes.arrayOf(
-      PropTypes.shape({
-        distance: PropTypes.string.isRequired,
-        vehicle_type: PropTypes.string.isRequired,
-        trailer_type: PropTypes.string.isRequired,
-        tonnage: PropTypes.string.isRequired,
-        volume: PropTypes.string.isRequired,
-        cargo_type: PropTypes.string.isRequired,
-        payment_type: PropTypes.string.isRequired,
+export default function CustomizedTable(props) {
+  useEffect(() => {
+    fetch("http://localhost:3000/cargo/all")
+      .then((res) => {
+        if (res.ok && res.status === 200) {
+          return res.json();
+        }
       })
-    ).isRequired,
-  }).isRequired,
-};
-
-export default function CustomizedTable() {
+      .then((data) => {
+        props.setCargo(data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -150,9 +107,8 @@ export default function CustomizedTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <Row key={row.id} row={row} />
-          ))}
+          {props.cargo &&
+            props.cargo.map((cargo) => <Row key={cargo.cargoId} row={cargo} />)}
         </TableBody>
       </Table>
     </TableContainer>
