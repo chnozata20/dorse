@@ -30,6 +30,8 @@ export default class Navbar extends Component {
             <li>
               <a href="#">Contact</a>
             </li>
+            <li>
+            </li>
           </ul>
         </nav>
       </div>

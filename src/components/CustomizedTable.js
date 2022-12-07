@@ -1,4 +1,3 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -12,16 +11,20 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { useEffect } from "react";
 import "../styles/CustomizedTable.css";
+import React, { useEffect, useState } from "react";
+
 
 function Row(props) {
   const { row } = props;
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <React.Fragment>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+      <TableRow sx={{ "& > *": { borderBottom: "unset" } }} style={{
+          backgroundColor: row.cargoId === props.chosen ? 'salmon' : 'white',
+        }}>
+
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -31,6 +34,7 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
+        <TableCell>{row.cargoId}</TableCell>
         <TableCell component="th" scope="row">
           {row.startCity}
         </TableCell>
@@ -38,7 +42,14 @@ function Row(props) {
         <TableCell>{row.startDate}</TableCell>
         <TableCell>{row.endDate}</TableCell>
         <TableCell>
-          <button className="button-12">SEÇ</button>
+          <button
+            className="Example-btn11"
+            onClick={() => {
+              props.setChosen(row.cargoId);
+            }}
+          >
+            SEÇ
+          </button>
         </TableCell>
       </TableRow>
       <TableRow>
@@ -53,22 +64,26 @@ function Row(props) {
                   <TableRow>
                     <TableCell>Distance</TableCell>
                     <TableCell>Vehicle Type</TableCell>
-                    <TableCell align="right">Trailer Type</TableCell>
-                    <TableCell align="right">Tonnage</TableCell>
-                    <TableCell align="right">Volume</TableCell>
-                    <TableCell align="right">Cargo Type</TableCell>
-                    <TableCell align="right">Payment Type</TableCell>
+                    <TableCell align="left">Trailer Type</TableCell>
+                    <TableCell align="left">Tonnage</TableCell>
+                    <TableCell align="left">En</TableCell>
+                    <TableCell align="left">Boy</TableCell>
+                    <TableCell align="left">Yükseklik</TableCell>
+                    <TableCell align="left">Cargo Type</TableCell>
+                    <TableCell align="left">Payment Type</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow>
-                    <TableCell align="right">{row.distance}</TableCell>
-                    <TableCell align="right">{row.vehicleType}</TableCell>
-                    <TableCell align="right">{row.trailerType}</TableCell>
-                    <TableCell align="right">{row.tonnage}</TableCell>
-                    <TableCell align="right">{row.volume}</TableCell>
-                    <TableCell align="right">{row.cargoType}</TableCell>
-                    <TableCell align="right">{row.paymentType}</TableCell>
+                    <TableCell align="left">{row.distance}</TableCell>
+                    <TableCell align="left">{row.vehicleType}</TableCell>
+                    <TableCell align="left">{row.trailerType}</TableCell>
+                    <TableCell align="left">{row.tonnage}</TableCell>
+                    <TableCell align="left">{row.width}</TableCell>
+                    <TableCell align="left">{row.lenght}</TableCell>
+                    <TableCell align="left">{row.height}</TableCell>
+                    <TableCell align="left">{row.cargoType}</TableCell>
+                    <TableCell align="left">{row.paymentType}</TableCell>
                   </TableRow>
                   <TableRow></TableRow>
                 </TableBody>
@@ -83,23 +98,16 @@ function Row(props) {
 
 export default function CustomizedTable(props) {
   useEffect(() => {
-    fetch("http://localhost:3000/cargo/all")
-      .then((res) => {
-        if (res.ok && res.status === 200) {
-          return res.json();
-        }
-      })
-      .then((data) => {
-        props.setCargo(data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    console.log("seçildi")
+    console.log(props.chosen)
+  }, [props.chosen]);
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
             <TableCell />
+            <TableCell>NO</TableCell>
             <TableCell>Yükleme Noktası</TableCell>
             <TableCell>İndirme Noktası</TableCell>
             <TableCell>Yükleme Tarihi</TableCell>
@@ -108,7 +116,7 @@ export default function CustomizedTable(props) {
         </TableHead>
         <TableBody>
           {props.cargo &&
-            props.cargo.map((cargo) => <Row key={cargo.cargoId} row={cargo} />)}
+            props.cargo.map((cargo) => <Row key={cargo.cargoId} row={cargo} chosen={props.chosen} setChosen={props.setChosen}/>)}
         </TableBody>
       </Table>
     </TableContainer>
