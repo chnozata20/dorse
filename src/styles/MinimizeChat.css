@@ -1,0 +1,25 @@
+.parent{
+    bottom: 0%;
+    right: 2%;
+    display: table; 
+    position: fixed;
+    width: 20%;
+    height: 5%;
+    background-color:rgb(8,31,45,.7);
+    border-radius: 30px;
+    color: cornsilk;
+    border: 1px solid rgb(8,31,45,.7);
+
+}
+.minimize-text{
+    display: table-cell; 
+    vertical-align: middle;
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+}
+.parent:hover{
+    background-color:rgba(255, 255, 255, 0.7);
+    color: rgb(8,31,45,.7);
+    border-color:rgb(8,31,45,.7);
+}

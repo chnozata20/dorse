@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Login.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,} from "react-router-dom";
+import EmployerHome from "./EmployerHome";
 export default function Login() {
   const [signInUsername, setSignInUsername] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
@@ -12,7 +13,6 @@ export default function Login() {
   const [user, setUser] = useState("");
   const navigate = useNavigate();
   const [alert, setAlert] = useState("");
-
 
   function SignInConfirm() {
     fetch("http://localhost:3000/employer/user", {
@@ -29,7 +29,7 @@ export default function Login() {
       console.log(data.length)
       if(data.length!==0){
         setUser(data);
-        navigate('/selectcargo')
+        navigate('/employerhome', { state: {data}})
       }
     })
     .catch((err) => console.log(err));
@@ -44,7 +44,6 @@ export default function Login() {
       }
     })
     .then((data) => {
-      console.log(data.length)
       if(data.length!==0){
         setUser(data);
         navigate('/selectcargo')
@@ -58,6 +57,7 @@ export default function Login() {
 
   return (
     <div className="bg">
+      {console.log("start")}
       {/* <video autoPlay muted loop id="myVideo">
           <source src={video} type="video/mp4" />
         </video> */}

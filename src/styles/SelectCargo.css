@@ -20,8 +20,8 @@ hr {
 .mapRelative {
   position: relative;
   top: 50px;
-  left: 50px;
-  max-width: 800px;
+  left: 30px;
+  max-width: 900px;
   max-height: 400px;
 }
 
@@ -29,14 +29,13 @@ hr {
   position: relative;
   top: 50px;
   right: 0px;
-  max-width: 800px;
-  max-height: 400px;
+
 }
 
 .navbarRelative {
   position: relative;
   top: 0px;
-  left: 500px;
+  left: 25%;
   max-width: 800px;
   max-height: 400px;
 }

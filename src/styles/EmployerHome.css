@@ -1,0 +1,36 @@
+.Example-btn1 {
+    margin-top: 50px;
+    margin-left: 50px;
+    background-color: #77dd77;
+    border-radius: 29px;
+    border: 1px solid #081F2D;
+    color: #081f2d;
+    font-size: 15px;
+    padding: 10px 45px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: block;
+    min-width: 200px;
+}
+
+.Example-btn1:hover {
+    background-color: white;
+    color: #081F2D;
+    border-color: #081F2D;
+    transition: 0.3s;
+}
+
+.color2 {
+    background-color: #6093ac;
+
+}
+
+.color3 {
+    background-color: #c23b22;
+
+}
+
+.parent-button-position{
+    margin-top: 130px;
+    position: fixed;    
+}
