@@ -31,8 +31,10 @@ export default function AddCargoForm(props) {
   const [endPointId, setEndPointId] = useState(false);
   const firstUpdate = useRef(0);
   const [alert, setAlert] = useState(false);
+  const [update, setUpdate] = useState(false);
 
   useEffect(() => {
+    setStartPointId(props.add === true ? false : props.cargo.startPointId);
     setStartCity(props.add === true ? "Adana" : props.cargo.startCity);
     setStartCountie(props.add === true ? false : props.cargo.startCountie);
     setStartNeighbourhood(
@@ -41,6 +43,7 @@ export default function AddCargoForm(props) {
     setStartStreet(props.add === true ? false : props.cargo.startStreet);
     setStartNo(props.add === true ? false : props.cargo.startNo);
 
+    setEndPointId(props.add === true ? false : props.cargo.endPointId);
     setEndCity(props.add === true ? "Adana" : props.cargo.endCity);
     setEndCountie(props.add === true ? false : props.cargo.endCountie);
     setEndNeighbourhood(
@@ -55,7 +58,7 @@ export default function AddCargoForm(props) {
     setVehicleType(props.add === true ? false : props.cargo.vehicleType);
     setTrailerType(props.add === true ? false : props.cargo.trailerType);
     setWeight(props.add === true ? false : props.cargo.weight);
-    setWidth(props.add === true ? false : props.cargo.widht);
+    setWidth(props.add === true ? false : props.cargo.width);
     setLenght(props.add === true ? false : props.cargo.lenght);
     setHeight(props.add === true ? false : props.cargo.height);
     setCargoType(props.add === true ? false : props.cargo.cargoType);
@@ -67,11 +70,11 @@ export default function AddCargoForm(props) {
     InsertStartPoint();
     InsertEndPoint();
   }
-  function Update(){
+  function Update() {
     UpdateStartPoint();
     UpdateEndPoint();
   }
-  function UpdateStartPoint(){
+  function UpdateStartPoint() {
     fetch("http://localhost:3000/point/".concat(props.cargo.startPointId), {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -88,12 +91,9 @@ export default function AddCargoForm(props) {
           return res.json();
         }
       })
-      .then(() => {
-        setStartPointId(props.cargo.startPointId);
-      })
       .catch((err) => console.log(err));
   }
-  function UpdateEndPoint(){
+  function UpdateEndPoint() {
     fetch("http://localhost:3000/point/".concat(props.cargo.endPointId), {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -111,50 +111,49 @@ export default function AddCargoForm(props) {
         }
       })
       .then(() => {
-        setEndPointId(props.cargo.endPointId);
+        setUpdate(true)
       })
       .catch((err) => console.log(err));
   }
+  
   useEffect(() => {
-    console.log(firstUpdate.current)
-    if (firstUpdate.current < 2) {
+    if (firstUpdate.current < 2 || update===false) {
       firstUpdate.current = firstUpdate.current + 1;
       return;
-    }
-    else if(props.add !== true){
+    } else if (props.add !== true) {
       fetch("http://localhost:3000/cargo/".concat(props.cargo.cargoId), {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        employerId: props.user.id,
-        startPointId: startPointId,
-        endPointId: endPointId,
-        startDate: startDate,
-        endDate: endDate,
-        vehicleType: vehicleType,
-        trailerType: trailerType,
-        tonnage: weight,
-        volume: width * lenght * height,
-        cargoType: cargoType,
-        paymentType: paymentType,
-        price: price,
-        distance: distance,
-        width: width,
-        lenght: lenght,
-        height: height,
-      }),
-    })
-      .then((res) => {
-        if (res.ok && res.status === 200) {
-          return res.json();
-        }
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          employerId: props.user.id,
+          startPointId: startPointId,
+          endPointId: endPointId,
+          startDate: startDate,
+          endDate: endDate,
+          vehicleType: vehicleType,
+          trailerType: trailerType,
+          tonnage: weight,
+          volume: width * lenght * height,
+          cargoType: cargoType,
+          paymentType: paymentType,
+          price: price,
+          distance: distance,
+          width: width,
+          lenght: lenght,
+          height: height,
+        }),
       })
-      .then((data) => {
-        setAlert(true);
-      })
-      .catch((err) => console.log(err));
-    }
-    else{
+        .then((res) => {
+          if (res.ok && res.status === 200) {
+            return res.json();
+          }
+        })
+        .then((data) => {
+          console.log("set alert true")
+          setAlert(true);
+        })
+        .catch((err) => console.log(err));
+    } else {
       fetch("http://localhost:3000/cargo/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -183,12 +182,12 @@ export default function AddCargoForm(props) {
           }
         })
         .then((data) => {
+          console.log("set alert true")
           setAlert(true);
         })
         .catch((err) => console.log(err));
     }
-    
-  }, [endPointId]);
+  }, [update]);
   function InsertEndPoint() {
     fetch("http://localhost:3000/point/", {
       method: "POST",
@@ -206,8 +205,8 @@ export default function AddCargoForm(props) {
           return res.json();
         }
       })
-      .then((data) => {
-        setEndPointId(data.insertId);
+      .then(() => {
+        setUpdate(true)
       })
       .catch((err) => console.log(err));
   }
@@ -241,12 +240,12 @@ export default function AddCargoForm(props) {
             className="closebtn"
             onClick={() => {
               setAlert(false);
+              setUpdate(false);
             }}
           >
             ×
           </span>
           {props.add === true ? "BAŞARIYLA EKLENDİ." : "BAŞARIYLA GÜNCELLENDİ."}
-          
         </div>
       ) : null}
       <form>
