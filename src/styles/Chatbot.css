@@ -9,6 +9,34 @@
     right: 22%;
   }
 }
+@keyframes silde_to_bottom {
+  0% {
+    z-index: 1000000;
+    bottom: 32%;
+    right: 22%;
+  }
+  100% {
+    bottom: -25%;
+  }
+}
+.down-button{
+  background-image: url("../public/down.png") ;
+  background-color: white;
+  background-position-y: center;
+  background-position-x: center;
+  background-size: 75%;
+  background-repeat: no-repeat;
+  border-color: #fff;
+  position: absolute;
+  height: 10%;
+  width: 15%;
+  right: 8%;
+  top: 2%;
+  border-style: hidden;
+}
+.down-button:hover{
+opacity: .5;
+}
 /* @keyframes fadeInAnimation {
   0% {
       opacity: 0;
@@ -31,6 +59,22 @@ body, html {
             animation-iteration-count: 1;
             animation-fill-mode: forwards; */
     animation-name: silde_to_top;
+    animation-duration: 2s;
+    animation-timing-function: ease;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-delay: 0;
+    animation-play-state: running;
+    position: fixed;
+    bottom: 32%;
+    right: 22%;
+    width: auto;
+}
+.chat-fixed-2 {
+  /* animation: fadeInAnimation ease 1s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards; */
+    animation-name: silde_to_bottom;
     animation-duration: 2s;
     animation-timing-function: ease;
     animation-iteration-count: 1;
@@ -136,6 +180,7 @@ body, html {
   border-radius: 1rem;
   background: white;
   box-shadow: 0 0 8rem 0 rgba(0, 0, 0, 0.1), 0rem 2rem 4rem -3rem rgba(0, 0, 0, 0.5);
+  
 }
 .chat .contact.bar {
   flex-basis: 3.5rem;
@@ -148,6 +193,7 @@ body, html {
   background: #F7F7F7;
   flex-shrink: 2;
   overflow-y: auto;
+  height:  100%;
   box-shadow: inset 0 2rem 2rem -2rem rgba(0, 0, 0, 0.05), inset 0 -2rem 2rem -2rem rgba(0, 0, 0, 0.05);
 }
 .chat .messages .time {
@@ -170,7 +216,7 @@ body, html {
   max-width: 66%;
   box-shadow: 0 0 2rem rgba(0, 0, 0, 0.075), 0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.1);
 }
-.chat .messages .message.parker {
+.chat .messages .message.two {
   margin: 1rem 1rem 1rem auto;
   border-radius: 1.125rem 1.125rem 0 1.125rem;
   background: #333;
@@ -228,6 +274,7 @@ body, html {
 .chat .input input:placeholder {
   color: #999;
 }
+
 @keyframes typing {
   0%, 75%, 100% {
     transform: translate(0, 0.25rem) scale(0.9);

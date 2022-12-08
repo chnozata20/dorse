@@ -35,6 +35,7 @@ export default function EmployerHome() {
       <Row>
         <Col xs="9">
           <CustomizedTable 
+            driver={false}
             cargo={cargo}
             chosen={chosen}
             setChosen={setChosen}

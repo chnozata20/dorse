@@ -4,7 +4,7 @@
     border: 1px solid #081F2D; 
     color: #ffffff; 
     font-size: 15px; 
-   padding: 10px 45px; 
+    padding: 5px 20px; 
     cursor: pointer;  
     transition: 0.3s; 
     }
@@ -15,6 +15,25 @@
     border-color: #081F2D; 
     transition: 0.3s; 
    }
+   .alertOk {
+	position: fixed;
+	left: 40%;
+	top: 40%;
+	padding: 1%;
+	background-color: #77dd77; /* Red */
+	color: white;
+	width: 20%;
+  }
+.alertWarn{
+	position: fixed;
+	left: 40%;
+	top: 40%;
+	padding: 1%;
+	background-color: #f44336; /* Red */
+	color: white;
+	width: 20%;
+}
+  
    /* .Example-btn11:focus{
     background-color: red; 
    } */
