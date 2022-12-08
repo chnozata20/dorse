@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/MinimizeChat.css";
-import up from "../public/up.png"
+import up from "./up.png"
 
 export default function MinimizeChat(props) {
   return (

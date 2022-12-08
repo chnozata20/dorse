@@ -20,7 +20,7 @@
   }
 }
 .down-button{
-  background-image: url("../public/down.png") ;
+  background-image: url("../../public/down.png") ;
   background-color: white;
   background-position-y: center;
   background-position-x: center;
