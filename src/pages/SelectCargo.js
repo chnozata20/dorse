@@ -45,11 +45,11 @@ export default function SelectCargo() {
         </Col>
         <Col xs="6">
           <div className="tableRelative">
-            <CustomizedTable cargo={cargo} chosen={chosen} setChosen={setChosen} />
+            <CustomizedTable driver={true} cargo={cargo} chosen={chosen} setChosen={setChosen} />
           </div>
         </Col>
       </Row>
-      {chat === true ? <Chatbot/> : <MinimizeChat setChat={setChat}/>}
+      {chat === true ? <Chatbot chat={chat} setChat={setChat}/> : <MinimizeChat setChat={setChat}/>}
 
       
     </div>

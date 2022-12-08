@@ -23,6 +23,9 @@ function Row(props) {
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }} style={{
           backgroundColor: row.cargoId === props.chosen ? 'salmon' : 'white',
+        }}
+        onClick={() => {
+          props.setChosen(row.cargoId);
         }}>
 
         <TableCell>
@@ -41,15 +44,18 @@ function Row(props) {
         <TableCell>{row.endCity}</TableCell>
         <TableCell>{row.startDate}</TableCell>
         <TableCell>{row.endDate}</TableCell>
+        <TableCell>{row.price}</TableCell>
         <TableCell>
-          <button
+          {row.cargoId === props.chosen && props.driver === true ?<button
             className="Example-btn11"
             onClick={() => {
               props.setChosen(row.cargoId);
+              props.setAlert(true);
             }}
           >
-            SEÇ
-          </button>
+            İstek Gönder
+          </button>: null }
+          
         </TableCell>
       </TableRow>
       <TableRow>
@@ -57,20 +63,20 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                Detail
+                Detay
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Distance</TableCell>
-                    <TableCell>Vehicle Type</TableCell>
-                    <TableCell align="left">Trailer Type</TableCell>
-                    <TableCell align="left">Tonnage</TableCell>
+                    <TableCell>Mesafe</TableCell>
+                    <TableCell>Araç Tipi</TableCell>
+                    <TableCell align="left">Dorse Tipi</TableCell>
+                    <TableCell align="left">Tonaj</TableCell>
                     <TableCell align="left">En</TableCell>
                     <TableCell align="left">Boy</TableCell>
                     <TableCell align="left">Yükseklik</TableCell>
-                    <TableCell align="left">Cargo Type</TableCell>
-                    <TableCell align="left">Payment Type</TableCell>
+                    <TableCell align="left">Kargo Tipi</TableCell>
+                    <TableCell align="left">Ödeme Tipi</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -85,7 +91,6 @@ function Row(props) {
                     <TableCell align="left">{row.cargoType}</TableCell>
                     <TableCell align="left">{row.paymentType}</TableCell>
                   </TableRow>
-                  <TableRow></TableRow>
                 </TableBody>
               </Table>
             </Box>
@@ -97,12 +102,14 @@ function Row(props) {
 }
 
 export default function CustomizedTable(props) {
+  const [alert, setAlert] = useState(false);
   useEffect(() => {
     console.log("seçildi")
     console.log(props.chosen)
   }, [props.chosen]);
   return (
-    <TableContainer component={Paper}>
+    <div>
+  <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
@@ -112,13 +119,29 @@ export default function CustomizedTable(props) {
             <TableCell>İndirme Noktası</TableCell>
             <TableCell>Yükleme Tarihi</TableCell>
             <TableCell>İndirme Tarihi</TableCell>
+            <TableCell>Fiyat</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {props.cargo &&
-            props.cargo.map((cargo) => <Row key={cargo.cargoId} row={cargo} chosen={props.chosen} setChosen={props.setChosen}/>)}
+            props.cargo.map((cargo) => <Row setAlert={setAlert} driver={props.driver} key={cargo.cargoId} row={cargo} chosen={props.chosen} setChosen={props.setChosen}/>)}
         </TableBody>
       </Table>
     </TableContainer>
+      {alert === true ? (
+        <div className="alertOk">
+          <span
+            className="closebtn"
+            onClick={() => {
+              setAlert(false);
+            }}
+          >
+            ×
+          </span>
+          İSTEK BAŞARIYLA GÖNDERİLDİ.
+        </div>
+      ) : null}
+    </div>
+  
   );
 }
