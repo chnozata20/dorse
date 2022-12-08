@@ -205,6 +205,9 @@ export default function AddCargoForm(props) {
           return res.json();
         }
       })
+      .then((data) => {
+        setEndPointId(data.insertId)
+      })
       .then(() => {
         setUpdate(true)
       })
