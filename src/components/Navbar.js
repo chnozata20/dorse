@@ -1,11 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
 import "./Navbar.css";
 import logo from "./logo.png";
+import { Link } from "react-router-dom"
+import UserBar from "./UserBar";
 
-export default class Navbar extends Component {
-  render() {
+
+export default function Navbar(props){
     return (
-      <div>
+      <div style={{display:"flex", width:"73%"}}>
+        <div >
         <nav>
           <ul>
             <li>
@@ -19,22 +22,22 @@ export default class Navbar extends Component {
               />{" "}
             </li>
             <li>
-              <a href="">Home</a>
+            <Link to={props.driver === true ? "/selectcargo" : "/employerhome"} state={{ data: props.user}}>Ana Sayfa</Link>
             </li>
             <li>
-              <a href="#">About</a>
+            <Link to={props.driver === true ? "/selectcargo" : "/employerhome"} state={{ data: props.user}}>Profilim</Link>
             </li>
             <li>
-              <a href="#">Services</a>
-            </li>
-            <li>
-              <a href="#">Contact</a>
-            </li>
-            <li>
+              <Link to={props.driver === true ? "/driverrequests" : "/requests"} state={{ user: props.user, driver: props.driver }}>Kargo İstekleri</Link>
             </li>
           </ul>
+
         </nav>
+        </div>
+        <div className="n-userbar">
+        <UserBar name={props.user.name} surname={props.user.surname}></UserBar>
+        </div>
+
       </div>
     );
   }
-}

@@ -1,13 +1,12 @@
 import React from 'react'
 import "../styles/UserBar.css"
 
-export default function UserBar() {
+export default function UserBar(props) {
   return (
-    <div className='userbar-box-parent'>
         <div className='userbar-box'>
-        HOS GELDİN CİHAN ÖZATA:)
+      {"HOŞ GELDİN "+props.name+" "+props.surname+":)"}
+
 
         </div>
-    </div>
   )
 }

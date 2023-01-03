@@ -1,18 +1,12 @@
-.userbar-box-parent{
-    position: fixed;
-    box-sizing: content-box;
-    right: 0px;
-}
+
 .userbar-box{
-    min-width: 250px;
-    display: inline-block;
-    box-sizing: content-box;
-    padding:10px;
-    margin: 10px;
+    padding: 10% 15%;
     color: rgb(0, 0, 0);
     border-radius: 20px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
-}
-.userbar-box:hover{
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    border-style: groove;
+    border-color: rgb(160, 160, 160);
+    font-size: smaller;
+    width: 100%;
+    font-weight: bolder;
+    text-align: center;
 }

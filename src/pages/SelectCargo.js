@@ -7,12 +7,14 @@ import { Row, Col } from "reactstrap";
 import Navbar from "../components/Navbar";
 import Chatbot from "../components/Chatbot";
 import MinimizeChat from "../components/MinimizeChat";
+import { useLocation } from "react-router-dom";
 
 export default function SelectCargo() {
   const [currentCity, setCurrentCity] = useState("all");
   const [cargo, setCargo] = useState(false);
   const [chosen, setChosen] = useState(0);
   const [chat, setChat] = useState(false);
+  const user = useLocation().state.data;
 
   useEffect(() => {
     fetch("http://localhost:3000/cargo/all")
@@ -29,9 +31,9 @@ export default function SelectCargo() {
   return (
     <div>
       <div className="navbarRelative">
-        <Navbar />
-        <hr></hr>
+        <Navbar user={user} driver={true}/>
       </div>
+      <hr></hr>
 
       <Row>
         <Col xs="6">
@@ -45,7 +47,7 @@ export default function SelectCargo() {
         </Col>
         <Col xs="6">
           <div className="tableRelative">
-            <CustomizedTable driver={true} cargo={cargo} chosen={chosen} setChosen={setChosen} />
+            <CustomizedTable user={user} driver={true} cargo={cargo} chosen={chosen} setChosen={setChosen} />
           </div>
         </Col>
       </Row>

@@ -18,7 +18,7 @@ hr {
 }
 
 .mapRelative {
-  position: relative;
+  position: sticky;
   top: 50px;
   left: 30px;
   max-width: 900px;
@@ -36,6 +36,4 @@ hr {
   position: relative;
   top: 0px;
   left: 25%;
-  max-width: 800px;
-  max-height: 400px;
 }

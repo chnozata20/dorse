@@ -27,3 +27,8 @@ nav ul li a:hover {
   background: rgba(255, 255, 255, 0.1);
   color: rgb(68, 68, 68);
 }
+.n-userbar{
+  margin-left: auto;
+  margin-top: 2%;
+
+}
