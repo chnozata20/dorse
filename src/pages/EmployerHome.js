@@ -9,9 +9,29 @@ import UserBar from "../components/UserBar";
 
 export default function EmployerHome() {
   const [cargo, setCargo] = useState(false);
-  const user = useLocation().state.data[0];
+  const user = useLocation().state.data;
   const navigate = useNavigate();
   const [chosen, setChosen] = useState(0);
+  const [deleteAlert, setDeleteAlert] = useState(false);
+
+  function DeleteCargo(id){
+        // DELETE request using fetch with error handling
+        fetch('http://localhost:3000/cargo/'.concat(id), { method: 'DELETE' })
+        .then(async response => {
+            const data = await response.json();
+            // check for error response
+            if (!response.ok) {
+                // get error message from body or default to response status
+                const error = (data && data.message) || response.status;
+                return Promise.reject(error);
+            }else{
+             setDeleteAlert(true);
+            }
+        })
+        .catch(error => {
+            console.error('There was an error!', error);
+        });
+  }
 
   useEffect(() => {
     fetch("http://localhost:3000/cargo/employerid/".concat(user.id))
@@ -24,24 +44,24 @@ export default function EmployerHome() {
         setCargo(data);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [deleteAlert]);
   return (
     <div>
-      <UserBar />
       <div className="navbarRelative">
-        <Navbar />
-        <hr></hr>
+        <Navbar user={user} driver={false}/>
       </div>
+      <hr></hr>
       <Row>
-        <Col xs="9">
+        <Col xs="10">
           <CustomizedTable 
+            user={user}
             driver={false}
             cargo={cargo}
             chosen={chosen}
             setChosen={setChosen}
           />
         </Col>
-        <Col xs="3">
+        <Col xs="2">
           <div className="parent-button-position">
             <button
               className="Example-btn1 "
@@ -49,7 +69,7 @@ export default function EmployerHome() {
                 navigate("/addcargo", { state: { user, cargo:true } });
               }}
             >
-              Add Cargo
+              Kargo Ekle
             </button>
 
             <button
@@ -68,20 +88,33 @@ export default function EmployerHome() {
                   .catch((err) => console.log(err));
               }}
             >
-              Update Cargo
+              Kargo Güncelle
             </button>
 
             <button
               className="Example-btn1 color3"
               onClick={() => {
-                navigate("/addcargo", { state: { user } });
+                DeleteCargo(chosen);
               }}
             >
-              Delete Cargo
+              Kargo Sil
             </button>
           </div>
         </Col>
       </Row>
+      {deleteAlert === true ? (
+        <div className="alertOk">
+          <span
+            className="closebtn"
+            onClick={() => {
+              setDeleteAlert(false);
+            }}
+          >
+            ×
+          </span>
+          İstek Başarıyla Silindi!
+        </div>
+      ) : null}
     </div>
   );
 }

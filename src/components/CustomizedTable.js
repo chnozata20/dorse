@@ -19,6 +19,25 @@ function Row(props) {
   const { row } = props;
   const [open, setOpen] = useState(false);
 
+  function sendCargoRequest(cargoId){
+    fetch("http://localhost:3000/cargorequest", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        cargo_id: cargoId,
+        driver_id: props.user.id,
+        status: 0
+      }),
+    })
+      .then((res) => {
+        if (res.ok && res.status === 200) {
+          props.setAlert(true);
+          return res.json();
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }} style={{
@@ -50,7 +69,7 @@ function Row(props) {
             className="Example-btn11"
             onClick={() => {
               props.setChosen(row.cargoId);
-              props.setAlert(true);
+              sendCargoRequest(row.cargoId)
             }}
           >
             İstek Gönder
@@ -102,6 +121,8 @@ function Row(props) {
 }
 
 export default function CustomizedTable(props) {
+  console.log("props.user")
+  console.log(props.user)
   const [alert, setAlert] = useState(false);
   useEffect(() => {
     console.log("seçildi")
@@ -124,7 +145,7 @@ export default function CustomizedTable(props) {
         </TableHead>
         <TableBody>
           {props.cargo &&
-            props.cargo.map((cargo) => <Row setAlert={setAlert} driver={props.driver} key={cargo.cargoId} row={cargo} chosen={props.chosen} setChosen={props.setChosen}/>)}
+            props.cargo.map((cargo) => <Row user={props.user} setAlert={setAlert} driver={props.driver} key={cargo.cargoId} row={cargo} chosen={props.chosen} setChosen={props.setChosen}/>)}
         </TableBody>
       </Table>
     </TableContainer>
